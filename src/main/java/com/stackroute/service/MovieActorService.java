@@ -2,30 +2,32 @@ package com.stackroute.service;
 
 import com.stackroute.domain.Actor;
 import com.stackroute.domain.Movie;
+import com.stackroute.exceptions.AlreadyExistsException;
+import com.stackroute.exceptions.NotFoundException;
 
-import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 public interface MovieActorService {
-    Actor getActorById(Actor actor);
+    public Movie saveMovie(Movie movie) throws AlreadyExistsException;
 
-    Actor saveActor(Actor movie);
+    public List<Movie> getAllMovies() throws Exception;
 
-    Collection<Actor> getAllActor();
+    public Movie getMovieById(long id) throws NotFoundException;
 
-    Actor deleteActorById(Actor actor);
+    public Optional<Movie> deleteMovieById(long id) throws NotFoundException;
 
-    Actor updateActorById(Actor movie);
+    public boolean deleteAllMovies() throws Exception;
 
-    Movie getMovieById(Movie movie);
+    public Actor saveActor(Actor actor) throws AlreadyExistsException;
 
-    Movie saveMovie(Movie movie);
+    public List<Actor> getAllActors() throws Exception;
 
-    Iterable<Movie> getAllMovie();
+    public Actor getActorById(long id) throws NotFoundException;
 
-    Movie deleteMovieById(Movie movie);
+    public boolean deleteAllActors() throws Exception;
 
-    Movie updateMovieById(Movie movie);
-
-    Actor setRelation(long actorId, long movieId, String role);
+    public Actor setRelation(long actorId, long movieId, String role);
 }
+
 
