@@ -2,67 +2,78 @@ package com.stackroute.controller;
 
 import com.stackroute.domain.Actor;
 import com.stackroute.domain.Movie;
+import com.stackroute.exceptions.AlreadyExistsException;
 import com.stackroute.service.MovieActorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.Optional;
 
+/**
+ * RestController annotation is used to create Restful web services using Spring MVC
+ */
 @RestController
+/**
+ * RequestMapping annotation maps HTTP requests to handler methods
+ */
 @RequestMapping(value = "api/v1")
 public class ActorController {
     private MovieActorService movieActorService;
+
+    /**
+     * Constructor based Dependency injection to inject TrackService into controller
+     */
 
     @Autowired
     private ActorController(MovieActorService movieActorService) {
         this.movieActorService = movieActorService;
     }
 
-    @GetMapping(value = "/actors")
-    public Collection<Actor> getAllActor() {
-        return movieActorService.getAllActor();
-    }
 
-    @GetMapping(value = "/movies")
-    public Iterable<Movie> getAllMovie() {
-        return movieActorService.getAllMovie();
-    }
-
+    /**
+     * PostMapping Annotation for mapping HTTP POST requests onto specific handler methods.
+     */
     @PostMapping(value = "/actor")
-    public Actor saveActor(@RequestBody Actor actor) {
-        System.out.println("****" + actor);
+    public Actor saveActor(@RequestBody Actor actor) throws Exception {
         return movieActorService.saveActor(actor);
     }
 
-    @PutMapping(value = "/actor")
-    public Actor updateActor(@RequestBody Actor actor) {
-        System.out.println("****" + actor);
-        return movieActorService.updateActorById(actor);
-    }
-
     @PostMapping(value = "/movie")
-    public Movie saveMovie(@RequestBody Movie movie) {
-        System.out.println("****" + movie);
+    public Movie saveMovie(@RequestBody Movie movie) throws Exception {
         return movieActorService.saveMovie(movie);
     }
 
-    @PutMapping(value = "/movie")
-    public Movie updateMovie(@RequestBody Movie movie) {
-        System.out.println("****" + movie);
-        return movieActorService.updateMovieById(movie);
+
+    /**
+     * GetMapping Annotation for mapping HTTP GET requests onto specific handler methods.
+     */
+    @GetMapping(value = "/actors")
+    public Collection<Actor> getAllActor() throws Exception {
+        return movieActorService.getAllActors();
     }
 
-    @DeleteMapping(value = "/critic")
-    public Actor deleteActor(@RequestBody Actor actor) {
-        System.out.println("****" + actor);
-        return movieActorService.deleteActorById(actor);
+    @GetMapping(value = "/movies")
+    public Iterable<Movie> getAllMovie() throws Exception {
+        return movieActorService.getAllMovies();
     }
 
-    @DeleteMapping(value = "/movie")
-    public Movie deleteMovie(@RequestBody Movie movie) {
-        System.out.println("****" + movie);
-        return movieActorService.deleteMovieById(movie);
+
+    /**
+     * DeleteMapping Annotation for mapping HTTP DELETE requests onto specific handler methods.
+     */
+    @DeleteMapping(value = "/movie/{id}")
+    public Optional<Movie> deleteMovieById(@PathVariable int id) throws Exception {
+        return movieActorService.deleteMovieById(id);
     }
+
+    @DeleteMapping(value = "/actor")
+    public boolean deleteAllActors(@RequestBody Actor actor) throws Exception {
+        return movieActorService.deleteAllActors();
+    }
+
 
     @PostMapping(value = "/critic/set")
     public Actor setRelation(@RequestParam long actorId, long movieId, String role) {
