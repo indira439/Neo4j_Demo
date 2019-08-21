@@ -8,13 +8,25 @@ import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 
+/**
+ * @NodeEntity to indicate that this class is directly mapped to a node in Neo4j.
+ */
 @NodeEntity
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
 
-public class    Movie {
+/**With @Data, Lombok will generate getter and setter methods, toString methods, Equal & Hashcode methods*/
+@Data
+
+/**@NoArgsConstructor will add constructor with no arguments*/
+@NoArgsConstructor
+
+/**@AllArgsConstructor will add constructor with all properties in the class*/
+@AllArgsConstructor
+
+public class Movie {
+
+    /**
+     * @Id annotation make id variable as Primary key
+     */
     @Id
     private long id;
     private String title;
