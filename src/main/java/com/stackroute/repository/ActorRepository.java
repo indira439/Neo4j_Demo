@@ -9,10 +9,14 @@ import org.springframework.stereotype.Repository;
 import java.util.Collection;
 
 
+/**
+ * @Repository marks the specific class as a Data Access Object
+ */
 @Repository
 public interface ActorRepository extends Neo4jRepository<Actor, Long> {
     @Query("MATCH (c:Actor)<-[r:ACTED]-(m:Movie) RETURN c,r,m")
     Collection<Actor> getAllActor();
+
     @Query("CREATE(m:Movies)-[:ACTED {role: {role}]->(c:Actor)")
     Actor setRelation(@Param("role") String role);
 }
